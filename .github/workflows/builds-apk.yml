@@ -28,11 +28,12 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - - name: Accept Android SDK licenses
-        run: yes | sdkmanager --licenses || true
+        run: yes | "platform-tools" "platforms;android-35" "build-tools;35.0.0" || true
 
       - name: Install Android SDK
         run: |
           sdkmanager --install "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+          
       - name: Build APK
         working-directory: dnd_companion
         run: gradle --no-daemon assembleDebug
