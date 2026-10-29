@@ -6,11 +6,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Extract project
+      - name: Extract Android project
         run: unzip -o Kubik_DnD_Android_Project.zip -d .
 
       - name: Set up Java
@@ -27,13 +28,13 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
-      - - name: Accept Android SDK licenses
-        run: yes | "platform-tools" "platforms;android-35" "build-tools;35.0.0" || true
+      - name: Accept Android SDK licenses
+        run: yes | sdkmanager --licenses
 
-      - name: Install Android SDK
+      - name: Install Android SDK components
         run: |
           sdkmanager --install "platform-tools" "platforms;android-35" "build-tools;35.0.0"
-          
+
       - name: Build APK
         working-directory: dnd_companion
         run: gradle --no-daemon assembleDebug
